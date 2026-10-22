@@ -1,8 +1,3 @@
-//  &str: string literal, immutable
-// String: mutable string
-// .as_str(): converts String to &str
-// .to_string(): converts &str, int, bool, etc. to String
-
 use std::io::{self, Write};
 use std::collections::HashMap;
 

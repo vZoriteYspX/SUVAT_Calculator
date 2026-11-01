@@ -1,6 +1,7 @@
 use std::io::{self, Write};
 use std::collections::HashMap;
 
+
 pub fn input_variables() -> Vec<String> {
     let mut variables: Vec<String> = vec![];
 
@@ -8,10 +9,10 @@ pub fn input_variables() -> Vec<String> {
     println!("-------------------------");
     println!("Please enter your SUVAT variables one by one. Input \"done\" once you have finished inputting your variables.");
     println!("SUVAT Variables:");
-    println!("\"displacement\" (Displacement)");
-    println!("\"initialv\" (Initial Velocity");
-    println!("\"finalv\" (Final Velocity");
-    println!("\"acceleration\" (Acceleration)");
+    println!("\"disp\" (Displacement)");
+    println!("\"initv\" (Initial Velocity)");
+    println!("\"finv\" (Final Velocity)");
+    println!("\"accel\" (Acceleration)");
     println!("\"time\" (Time)");
 
     loop {
@@ -26,13 +27,13 @@ pub fn input_variables() -> Vec<String> {
         io::stdin()
             .read_line(&mut var_in)
             .expect("Failed to read line.");
-        let var_trim: String = var_in.trim().to_lowercase().to_string();
+        let var_trim: String = var_in.trim().to_lowercase();
 
-        let var_name = match var_trim.as_str() {
-            "displacement" => "Displacement",
-            "initialv" => "Initial Velocity",
-            "finalv" => "Final Velocity",
-            "acceleration" => "Acceleration",
+        let var_name: &str = match var_trim.as_str() {
+            "disp" => "Displacement",
+            "initv" => "Initial Velocity",
+            "finv" => "Final Velocity",
+            "accel" => "Acceleration",
             "time" => "Time",
             "done" => {
                 if (3..=4).contains(&variables.len()) {
@@ -82,7 +83,7 @@ pub fn input_unknwn_var(knwn_vars: &Vec<String>) -> String {
         io::stdin()
             .read_line(&mut unknwn_var_in)
             .expect("Failed to read line.");
-        let unknwn_var_trim: String = unknwn_var_in.trim().to_lowercase().to_string();
+        let unknwn_var_trim: String = unknwn_var_in.trim().to_lowercase();
 
         if knwn_vars.contains(&unknwn_var_trim) {
             println!("Your \"unknown\" variable has already been inputted. Please try again.");
@@ -90,10 +91,9 @@ pub fn input_unknwn_var(knwn_vars: &Vec<String>) -> String {
 
         } else {
             match unknwn_var_trim.as_str() {
-                "displacement" | "initialv" | "finalv" | "acceleration" | "time" => {
+                "disp" | "initv" | "finv" | "accel" | "time" => {
                     println!("-------------------------");
-                    println!("Unknown variable added.");
-                    println!("Proceeding to the next step.");
+                    println!("Unknown variable added. Proceeding to the next step.");
                     return unknwn_var_trim;
                 }
                 _ => {
@@ -118,16 +118,16 @@ pub fn input_values(variables: &Vec<String>) -> HashMap<String, f64> {
             io::stdin()
                 .read_line(&mut variable)
                 .expect("Failed to read line.");
-            let trim_var = variable.trim();
+            let var_trim: &str = variable.trim();
             
-            if trim_var.is_empty() {
+            if var_trim.is_empty() {
                 println!("-------------------------");
                 println!("Input cannot be empty. Please try again.");
                 continue;
             }
 
             let var_double: f64 = 
-                match trim_var.parse() {
+                match var_trim.parse() {
                     Ok(n) => n,
                     Err(_) => {
                         println!("-------------------------");
@@ -151,7 +151,8 @@ pub fn input_continue() -> i32 {
     io::stdin()
         .read_line(&mut response)
         .expect("Failed to read line.");
-    let trim_response = response.trim();
+    let trim_response: &str = response.trim();
+
     let response_char: char =
         match trim_response.parse() {
             Ok(n) => n,
